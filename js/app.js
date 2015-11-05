@@ -18,15 +18,34 @@
 		if (loginInfo.password.length < 6) {
 			return callback('密码最短为 6 个字符');
 		}
-		var users = JSON.parse(localStorage.getItem('$users') || '[]');
-		var authed = users.some(function(user) {
-			return loginInfo.account == user.account && loginInfo.password == user.password;
-		});
-		if (authed) {
-			return owner.createState(loginInfo.account, callback);
-		} else {
-			return callback('用户名或密码错误');
-		}
+		var userObject = Bmob.Object.extend("_User");
+		var query = new Bmob.Query(userObject);
+		query.equalTo("username",loginInfo.account);
+		query.equalTo("password",loginInfo.password);
+		query.find({
+			success:function(results){
+				if(results.length > 0){
+					return owner.createState(loginInfo.account,callback);
+				}else{
+					return callback("用户名活密码错误！");
+				}
+				
+				
+			},
+			error:function(err){
+				alert("查询失败"+err.code+","+err.Message);
+			}
+		})
+
+//		var users = JSON.parse(localStorage.getItem('$users') || '[]');
+//		var authed = users.some(function(user) {
+//			return loginInfo.account == user.account && loginInfo.password == user.password;
+//		});
+//		if (authed) {
+//			return owner.createState(loginInfo.account, callback);
+//		} else {
+//			return callback('用户名或密码错误');
+//		}
 	};
 
 	owner.createState = function(name, callback) {

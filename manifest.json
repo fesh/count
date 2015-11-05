@@ -109,7 +109,7 @@
         },
         "Navigator":{
         	"description": "浏览器信息"
-        }
+        },"OAuth":{}
     },
     "plus": {
         "splashscreen": {
