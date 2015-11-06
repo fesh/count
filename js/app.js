@@ -73,9 +73,24 @@
 		if (!checkEmail(regInfo.email)) {
 			return callback('邮箱地址不合法');
 		}
-		var users = JSON.parse(localStorage.getItem('$users') || '[]');
-		users.push(regInfo);
-		localStorage.setItem('$users', JSON.stringify(users));
+		var userObject = Bmob.Object.extend("_User");
+		var newUser = new userObject();
+		newUser.save({
+			username:regInfo.account,
+			password:regInfo.password,
+			email:regInfo.email
+		},{
+			success:function(user){
+				localStorage.setItem("userId",user.id);	
+			},
+			error:function(user,err){
+				alert("注册失败，请稍后重试！");	
+			}
+		});
+
+//		var users = JSON.parse(localStorage.getItem('$users') || '[]');
+//		users.push(regInfo);
+//		localStorage.setItem('$users', JSON.stringify(users));
 		return callback();
 	};
 
