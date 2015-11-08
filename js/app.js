@@ -8,7 +8,7 @@
 	 * 用户登录
 	 **/
 	owner.login = function(loginInfo, callback) {
-		callback = callback || $.noop;
+		callback = callback || $.noop ;
 		loginInfo = loginInfo || {};
 		loginInfo.account = loginInfo.account || '';
 		loginInfo.password = loginInfo.password || '';
@@ -18,24 +18,14 @@
 		if (loginInfo.password.length < 6) {
 			return callback('密码最短为 6 个字符');
 		}
-		var userObject = Bmob.Object.extend("_User");
-		var query = new Bmob.Query(userObject);
-		query.equalTo("username",loginInfo.account);
-		query.equalTo("password",loginInfo.password);
-		query.find({
-			success:function(results){
-				if(results.length > 0){
-					return owner.createState(loginInfo.account,callback);
-				}else{
-					return callback("用户名活密码错误！");
-				}
-				
-				
+		Bmob.User.logIn(loginInfo.account,loginInfo.password,{
+			success:function(user){
+				return owner.createState(loginInfo.account, callback);
 			},
-			error:function(err){
-				alert("查询失败"+err.code+","+err.Message);
+			error:function(user,err){
+				return callback(err.code+err.message);
 			}
-		})
+		});
 
 //		var users = JSON.parse(localStorage.getItem('$users') || '[]');
 //		var authed = users.some(function(user) {
@@ -51,7 +41,7 @@
 	owner.createState = function(name, callback) {
 		var state = owner.getState();
 		state.account = name;
-		state.token = "token123456789";
+//		state.token = "token123456789";
 		owner.setState(state);
 		return callback();
 	};
@@ -73,25 +63,55 @@
 		if (!checkEmail(regInfo.email)) {
 			return callback('邮箱地址不合法');
 		}
-		var userObject = Bmob.Object.extend("_User");
-		var newUser = new userObject();
-		newUser.save({
-			username:regInfo.account,
-			password:regInfo.password,
-			email:regInfo.email
-		},{
+		var user = new Bmob.User();
+		user.set("username",regInfo.account);
+		user.set("password",regInfo.password);
+		user.set("email",regInfo.email);
+		user.set("mobilePhoneNumber",regInfo.phone);
+
+		user.signUp(null,{
 			success:function(user){
-				localStorage.setItem("userId",user.id);	
+				return callback();
 			},
 			error:function(user,err){
-				alert("注册失败，请稍后重试！");	
+				if(err.code == 203){
+					return callback("邮箱已经被注册了！");
+				}else if(err.code == 202){
+					return callback("用户名已经存在！");
+				}
+				return callback("注册失败，请稍后再试！");
 			}
 		});
+//		var userObject = Bmob.Object.extend("_User");
+//		var query = new Bmob.Query(userObject);
+//		query.find({
+//			success:function(results){
+//				if(results.length > 0){
+//					return callback("用户名已经存在，请尝试其他用户名！");
+//				}
+//			},
+//			error:function(err){
+//				return callback("注册失败，请稍后重试！");
+//			}
+//		});
+//		
+//		var newUser = new userObject();
+//		newUser.save({
+//			username:regInfo.account,
+//			password:regInfo.password,
+//			email:regInfo.email
+//		},{
+//			success:function(user){
+//				localStorage.setItem("userId",user.id);	
+//			},
+//			error:function(user,err){
+//				return callback("注册失败，请稍后重试！");	
+//			}
+//		});
 
 //		var users = JSON.parse(localStorage.getItem('$users') || '[]');
 //		users.push(regInfo);
 //		localStorage.setItem('$users', JSON.stringify(users));
-		return callback();
 	};
 
 	/**

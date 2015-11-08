@@ -124,7 +124,7 @@
 					}
 					plus.screen.lockOrientation("portrait-primary");
 					var settings = app.getSettings();
-					var state = app.getState();
+//					var state = app.getState();
 					var mainPage = $.preload({
 						"id": 'main',
 						"url": 'main.html'
@@ -143,8 +143,12 @@
 							});
 						}, 0);
 					};
+					var userId = 0;
+					if(Bmob.User.current()){
+						userId = Bmob.User.current().id;
+					}
 					//检查 "登录状态/锁屏状态" 开始
-					if (settings.autoLogin && state.token && settings.gestures) {
+					if (settings.autoLogin && userId && settings.gestures) {
 						$.openWindow({
 							url: 'unlock.html',
 							id: 'unlock',
@@ -155,7 +159,7 @@
 								autoShow: false
 							}
 						});
-					} else if (settings.autoLogin && state.token) {
+					} else if (settings.autoLogin && userId) {
 						toMain();
 					} else {
 						//第三方登录
