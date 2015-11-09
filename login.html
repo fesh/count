@@ -126,14 +126,14 @@
 					var settings = app.getSettings();
 //					var state = app.getState();
 					var mainPage = $.preload({
-						"id": 'main',
-						"url": 'main.html'
+						"id": 'countIndex',
+						"url": 'count_index.html'
 					});
 					var toMain = function() {
 						$.fire(mainPage, 'show', null);
 						setTimeout(function() {
 							$.openWindow({
-								id: 'main',
+								id: 'countIndex',
 								show: {
 									aniShow: 'pop-in'
 								},
