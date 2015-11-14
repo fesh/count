@@ -8,53 +8,107 @@
 		<link href="css/mui.min.css" rel="stylesheet" />
 		<link href="css/count.css" rel="stylesheet" />
 
-		<style>
-			ul {
-				font-size: 14px;
-				color: #8f8f94;
-			}
-			.mui-btn {
-				padding: 10px;
-			}
-		</style>
 	</head>
 
 	<body>
-		<img src="images/indexBg.jpg" alt="" class="responsivImg"/>
-		<div class="mui-content ">
+		<div class="mui-content" style="overflow: hidden;">
+			<img src="images/indexBg.jpg" alt="" class="responsivImg" />
+			<div class="count_button">
 				<div id="say"></div>
 				<div id="voice"></div>
 				<div id="parent"></div>
-				<div id="start"></div>		
+				<div id="start"></div>
+			</div>
+
 		</div>
 		<script src="js/mui.min.js"></script>
 		<script src="js/app.js"></script>
 		<script>
 			(function($, doc) {
 				$.init();
-				
 				$.plusReady(function() {
-//					var settingPage = $.preload({
-//						"id": 'setting',
-//						"url": 'setting.html'
-//					});
-//					//设置
-//					var settingButton = doc.getElementById('setting');
-//					settingButton.addEventListener('tap', function(event) {
-//						$.openWindow({
-//							id: 'setting',
-//							show: {
-//								aniShow: 'pop-in'
-//							},
-//							styles: {
-//								popGesture: 'hide'
-//							},
-//							waiting: {
-//								autoShow: false
-//							}
-//						});
-//					});
-					//--
+					//					var settingPage = $.preload({
+					//						"id": 'setting',
+					//						"url": 'setting.html'
+					//					});
+					//设置
+					var sayButton = doc.getElementById('say');
+					$.preload({
+						"id": "say",
+						"url": "say.html"
+					});
+					sayButton.addEventListener('tap', function(event) {
+						$.openWindow({
+							id: 'say',
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide'
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					});
+					var voiceButton = doc.getElementById('voice');
+					$.preload({
+						"id": "voice",
+						"url": "voice.html"
+					});
+					voiceButton.addEventListener('tap', function(event) {
+						$.openWindow({
+							id: 'voice',
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide'
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					});
+					var parentButton = doc.getElementById('parent');
+					$.preload({
+						"id": "parent",
+						"url": "parent.html"
+					});
+					parentButton.addEventListener('tap', function(event) {
+						$.openWindow({
+							id: 'parent',
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide'
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					});
+					var startButton = doc.getElementById('start');
+					$.preload({
+						"id": "start",
+						"url": "start.html"
+					});
+					startButton.addEventListener('tap', function(event) {
+						$.openWindow({
+							id: 'start',
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide'
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					});
+					//关闭
 					$.oldBack = mui.back;
 					var backButtonPress = 0;
 					$.back = function(event) {
