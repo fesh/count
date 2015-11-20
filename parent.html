@@ -13,8 +13,8 @@
 	<body>
 		<div class="mui-content" style="overflow: hidden;">
 			<img src="images/saveBg.jpg" alt="" class="responsivImg" />
-			<ul class="mui-table-view parent_list" >
-				<li class="mui-table-view-cell mui-collapse mui-active parent_list_li" >
+			<ul class="mui-table-view parent_list">
+				<li class="mui-table-view-cell mui-collapse mui-active parent_list_li">
 					<a class="mui-navigate-right" href="#">Item 1</a>
 					<div class="mui-collapse-content">
 						<div class="mui-input-row">父母呼唤及时回答 不慢吞吞很久才应答 <span class="mui-pull-right mui-badge mui-badge-inverted">1</span> </div>
@@ -37,6 +37,26 @@
 			</ul>
 		</div>
 		<script src="js/mui.min.js"></script>
+		<script src="js/bmob-min.js"></script>
+		<script>
+			(function($,doc){
+				$.init({});
+				$.plusReady(function() {
+						if (plus.networkinfo.getCurrentType() == plus.networkinfo.CONNECTION_NONE) {
+							mui.toast("当前网络不给力，无法连接云端数据库~");
+						} else {
+							Bmob.initialize("eabc522c19905225432088bca76c3c07", "f065625250b33e3447ce3cd8631c97ea");
+						}
+						
+						$(".parent_list").on("tap",".mui-collapse-content",function(){
+							alert("feng");
+							console.log(this.childNodes[1].innerText);
+						});
+
+						});
+		
+			}(mui,document));
+		</script>
 	</body>
 
 </html>
