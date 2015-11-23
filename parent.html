@@ -39,23 +39,34 @@
 		<script src="js/mui.min.js"></script>
 		<script src="js/bmob-min.js"></script>
 		<script>
-			(function($,doc){
+			(function($, doc) {
 				$.init({});
 				$.plusReady(function() {
-						if (plus.networkinfo.getCurrentType() == plus.networkinfo.CONNECTION_NONE) {
-							mui.toast("当前网络不给力，无法连接云端数据库~");
-						} else {
-							Bmob.initialize("eabc522c19905225432088bca76c3c07", "f065625250b33e3447ce3cd8631c97ea");
-						}
-						
-						$(".parent_list").on("tap",".mui-collapse-content",function(){
-							alert("feng");
-							console.log(this.childNodes[1].innerText);
+					if (plus.networkinfo.getCurrentType() == plus.networkinfo.CONNECTION_NONE) {
+						mui.toast("当前网络不给力，无法连接云端数据库~");
+					} else {
+						Bmob.initialize("eabc522c19905225432088bca76c3c07", "f065625250b33e3447ce3cd8631c97ea");
+					}
+					$(".parent_list").on("tap", ".mui-input-row", function() {
+						this.childNodes[1].innerText == 1 ? this.childNodes[1].innerText = 0 : this.childNodes[1].innerText = 1;
+					});
+					var parentObject = Bmob.Object.extend("parent");
+					var parent = new parentObject();
+					
+					var insertData = function() {
+						var starData = "{";
+						var amount = 0;
+						$(".mui-badge").each(function(index) {
+							starData += index + ":" + this.innerText + ",";
+							amount += parseInt(this.innerText);
 						});
-
-						});
-		
-			}(mui,document));
+						starData += "114:" + amount + "}";
+						$("#starAmount")[0].innerText = amount;
+						var sql = "UPDATE parent SET starData ='" + starData + "',amount = "+amount+" WHERE createDate ='" + new Date().Format("yyyy-MM-dd") + "';";
+						uexDataBaseMgr.executeSql(dbName, 1, sql);
+					}
+				});
+			}(mui, document));
 		</script>
 	</body>
 
