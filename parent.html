@@ -35,6 +35,7 @@
 					</div>
 				</li>
 			</ul>
+			<div id="starAmount"></div>
 		</div>
 		<script src="js/mui.min.js"></script>
 		<script src="js/bmob-min.js"></script>
@@ -52,7 +53,11 @@
 					});
 					var parentObject = Bmob.Object.extend("parent");
 					var parent = new parentObject();
-					
+	
+					var selectData = function(){
+						
+					}
+	
 					var insertData = function() {
 						var starData = "{";
 						var amount = 0;
@@ -62,8 +67,16 @@
 						});
 						starData += "114:" + amount + "}";
 						$("#starAmount")[0].innerText = amount;
-						var sql = "UPDATE parent SET starData ='" + starData + "',amount = "+amount+" WHERE createDate ='" + new Date().Format("yyyy-MM-dd") + "';";
-						uexDataBaseMgr.executeSql(dbName, 1, sql);
+						parent.set("userId",Bmob.User.current().id);
+						parent.set("starData",starData);
+						parent.set("amount",amount);
+						parent.save(null,{success:function(object){
+							$.alert("更新成功！");
+						},
+						error:function(object.error){
+							$.alert("更新失败，稍后重试！");
+						}
+						});
 					}
 				});
 			}(mui, document));
