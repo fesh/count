@@ -23,7 +23,7 @@
 #start {
 	float: left;
 	width: 25%;
-	height: 50px;
+	height: 4rem;
 }
 .parent_list {
 	position: absolute;
@@ -40,4 +40,11 @@
 .parent_list .mui-badge{
 	color:black;
 	font-size:100%;
+}
+#starAmount{
+	position: absolute;
+	right:25%;
+	bottom:0;
+	width: 25%;
+	height: 4rem;
 }

@@ -39,6 +39,7 @@
 		</div>
 		<script src="js/mui.min.js"></script>
 		<script src="js/bmob-min.js"></script>
+		<script src="js/count.js"></script>
 		<script>
 			(function($, doc) {
 				$.init({});
@@ -53,10 +54,21 @@
 					});
 					var parentObject = Bmob.Object.extend("parent");
 					var parent = new parentObject();
+					var parentId = "";
 	
 					var selectData = function(){
-						
-					}
+						var query = new Bmob.Query(parentObject);
+						query.equalTo("createDate",new Date().Format("yyyy-MM-dd"));
+						query.equalTo("userId",Bmob.User.current().id);
+						query.first({
+							success:function(result){
+								parentId = result.id;
+							},
+							error:function(error){
+								$.toast(error.message);
+							}
+						});
+					};
 	
 					var insertData = function() {
 						var starData = "{";
@@ -70,14 +82,19 @@
 						parent.set("userId",Bmob.User.current().id);
 						parent.set("starData",starData);
 						parent.set("amount",amount);
-						parent.save(null,{success:function(object){
-							$.alert("更新成功！");
+						parent.save(parentId,{success:function(object){
+							$.toast("更新成功！");
 						},
-						error:function(object.error){
-							$.alert("更新失败，稍后重试！");
+						error:function(object,error){
+							$.toast("更新失败，稍后重试！");
 						}
 						});
 					}
+					var starAmountButton = doc.getElementById("starAmount");
+					starAmountButton.addEventListener('tap', function(event) {
+						insertData();
+					});
+					selectData();
 				});
 			}(mui, document));
 		</script>
