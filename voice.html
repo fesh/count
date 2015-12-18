@@ -1,9 +1,61 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/count.css" rel="stylesheet" />
+
 	</head>
+
 	<body>
+		<div class="mui-content" style="overflow: hidden;">
+			<img src="images/countBg.jpg" alt="" class="responsivImg" />
+			<div class="play"></div>
+			<div class="stop"></div>
+		</div>
 	</body>
+	<script src="js/mui.min.js"></script>
+	<script src="js/bmob-min.js"></script>
+	<script type="text/javascript">
+		(function($, doc) {
+			$.init({});
+			$.plusReady(function() {
+				if (plus.networkinfo.getCurrentType() == plus.networkinfo.CONNECTION_NONE) {
+					mui.toast("当前网络不给力，无法连接云端数据库~");
+				} else {
+					Bmob.initialize("eabc522c19905225432088bca76c3c07", "f065625250b33e3447ce3cd8631c97ea");
+				}
+			});
+			
+			// 扩展API加载完毕后调用onPlusReady回调函数 
+			document.addEventListener("plusready", onPlusReady, false);
+			var r = null;
+			// 扩展API加载完毕，现在可以正常调用扩展API 
+			function onPlusReady() {
+				r = plus.audio.getRecorder();
+			}
+
+			function startRecord() {
+				if (r == null) {
+					alert("Device not ready!");
+					return;
+				}
+				r.record({
+					filename: "_doc/audio/"
+				}, function() {
+					alert("Audio record success!");
+				}, function(e) {
+					alert("Audio record failed: " + e.message);
+				});
+			}
+
+			function stopRecord() {
+				r.stop();
+			}
+		}(mui, document));
+	</script>
+
 </html>
