@@ -28,32 +28,49 @@
 				} else {
 					Bmob.initialize("eabc522c19905225432088bca76c3c07", "f065625250b33e3447ce3cd8631c97ea");
 				}
-			});
-			
-			// 扩展API加载完毕后调用onPlusReady回调函数 
-			document.addEventListener("plusready", onPlusReady, false);
-			var r = null;
-			// 扩展API加载完毕，现在可以正常调用扩展API 
-			function onPlusReady() {
-				r = plus.audio.getRecorder();
-			}
-
-			function startRecord() {
-				if (r == null) {
-					alert("Device not ready!");
-					return;
-				}
-				r.record({
-					filename: "_doc/audio/"
-				}, function() {
-					alert("Audio record success!");
+				// 获取音频目录对象
+				plus.io.resolveLocalFileSystemURL("_doc/", function(entry) {
+					entry.getDirectory("audio", {
+						create: true
+					}, function(dir) {}, function(e) {
+						$.toast("Get directory \"audio\" failed: " + e.message);
+					});
 				}, function(e) {
-					alert("Audio record failed: " + e.message);
+					$.toast("Resolve \"_doc/\" failed: " + e.message);
 				});
-			}
+			});
+			var p;
+			startPlay("_doc/audio/parent.mp3");
 
-			function stopRecord() {
-				r.stop();
+			function startPlay(url) {
+				p = plus.audio.createPlayer(url);
+				p.play(function() {}, function(e) {
+					$.toast("播放音频文件\"" + url + "\"失败：" + e.message);
+				});
+				// 获取总时长
+				//					var d = p.getDuration();
+				//					if (!d) {
+				//						pt.innerText = "00:00:00/" + timeToStr(d);
+				//					}
+				//					pi = setInterval(function() {
+				//						if (!d) { // 兼容无法及时获取总时长的情况
+				//							d = p.getDuration();
+				//						}
+				//						var c = p.getPosition();
+				//						if (!c) { // 兼容无法及时获取当前播放位置的情况
+				//							return;
+				//						}
+				//						pt.innerText = timeToStr(c) + "/" + timeToStr(d);
+				//						var pct = Math.round(L * c / d);
+				//						if (pct < 8) {
+				//							pct = 8;
+				//						}
+				//						ps.style.width = pct + "px";
+				//					}, 1000);
+			}
+			// 停止播放
+			function stopPlay() {
+				p.stop();
 			}
 		}(mui, document));
 	</script>
