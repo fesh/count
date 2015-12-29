@@ -143,10 +143,12 @@
 							});
 						}, 0);
 					};
+
 					var userId = 0;
 					if(Bmob.User.current()){
 						userId = Bmob.User.current().id;
 					}
+
 					//检查 "登录状态/锁屏状态" 开始
 					if (settings.autoLogin && userId && settings.gestures) {
 						$.openWindow({

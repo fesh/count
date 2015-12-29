@@ -62,7 +62,7 @@
 						query.equalTo("userId",Bmob.User.current().id);
 						query.first({
 							success:function(result){
-								parentId = result.id;
+								parentId = result;
 							},
 							error:function(error){
 								$.toast(error.message);

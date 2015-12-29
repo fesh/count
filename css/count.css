@@ -48,3 +48,16 @@
 	width: 25%;
 	height: 4rem;
 }
+#play,#stop{
+	position: absolute;
+	background: red;
+	bottom:0;
+	width:20%;
+	height:15%;
+}
+#play{
+	left:25%;
+}
+#stop{
+	right:25%;
+}

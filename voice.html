@@ -11,10 +11,10 @@
 	</head>
 
 	<body>
-		<div class="mui-content" style="overflow: hidden;">
+		<div class="mui-content" style="overflow: hidden;position:relative">
 			<img src="images/countBg.jpg" alt="" class="responsivImg" />
-			<div class="play"></div>
-			<div class="stop"></div>
+			<div id="play"></div>
+			<div id="stop"></div>
 		</div>
 	</body>
 	<script src="js/mui.min.js"></script>
@@ -40,11 +40,21 @@
 				});
 			});
 			var p;
-			startPlay("_doc/audio/parent.mp3");
+			var play = document.getElementById("play");
+			var stop = document.getElementById("stop");
+			play.addEventListener("tap", function() {
+				startPlay("audio/parent.mp3");
+			});
+			stop.addEventListener("tap", function() {
+				stopPlay();
+			});
 
 			function startPlay(url) {
 				p = plus.audio.createPlayer(url);
-				p.play(function() {}, function(e) {
+				p.play(function() {
+					$.toast("播放完成！");
+					stopPlay();
+				}, function(e) {
 					$.toast("播放音频文件\"" + url + "\"失败：" + e.message);
 				});
 				// 获取总时长
