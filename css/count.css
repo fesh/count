@@ -32,6 +32,7 @@
 	width: 85%;
 	left: 5%;
 	background-color: transparent;
+	overflow-y:scroll;
 
 }
 .mui-table-view-cell.mui-active.parent_list_li,.mui-table-view-cell.mui-collapse .mui-collapse-content{
@@ -41,16 +42,22 @@
 	color:black;
 	font-size:100%;
 }
-#starAmount{
+#starAmount,#save{
 	position: absolute;
 	right:25%;
 	bottom:0;
 	width: 25%;
 	height: 4rem;
+	line-height: 4rem;
+	font-size:150%;
+	color:red;
+	text-align: center;
+}
+#save{
+	right: 1%;
 }
 #play,#stop{
 	position: absolute;
-	background: red;
 	bottom:0;
 	width:20%;
 	height:15%;
